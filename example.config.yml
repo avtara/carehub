@@ -4,13 +4,13 @@ app:
   env: development
   is_system_maintenance: false
 redis:
-  host: 127.0.0.1
+  host: redis
   port: 6379
 database:
   connection_lifetime: 15
   database.maximum_idle: 5
   connection_max_open: 0
-  host: localhost
+  host: postgres
   port: 5432
   user: carehub
   password: s3cret
@@ -19,9 +19,9 @@ database:
   appKey: carehub
 oauth:
   google:
-    redirect_url: "http://localhost:9000/auth/google/callback"
-    client_id:
-    client_secret:
+    redirect_url: "http://localhost:3000/auth/google"
+    client_id: "957378194489-k1apkn7u4i92c0uop0thuphbe7spmt1o.apps.googleusercontent.com"
+    client_secret: "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"
 encrypt:
   secret_key: "abc&1*~#^2^#s0^=)^^7%b34"
 jwt:

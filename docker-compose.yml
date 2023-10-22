@@ -39,9 +39,9 @@ services:
     hostname: rest-server
     networks:
       netbridge:
-        ipv4_address: 10.3.0.5
+        ipv4_address: 10.3.0.6
     ports:
-      - 9000:9000
+      - "9000:9000"
     deploy:
       restart_policy:
         condition: on-failure
