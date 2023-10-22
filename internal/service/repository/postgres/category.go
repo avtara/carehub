@@ -36,7 +36,7 @@ func (c *categoryRepository) GetAllCategories(ctx context.Context, limit int) (r
 		var tmp models.Category
 		err = rows.Scan(&tmp.ID, &tmp.Name)
 		if err != nil {
-			err = fmt.Errorf("[Repository][GetByEmail] failed scan GetAllCategory: %s", err.Error())
+			err = fmt.Errorf("[Repository][GetAllCategories] failed scan GetAllCategory: %s", err.Error())
 			return
 		}
 		result = append(result, tmp)

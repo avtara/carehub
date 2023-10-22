@@ -7,6 +7,7 @@ var (
 	ErrorUserDuplicate     = errors.New("email has been taken")
 	ErrorUserWrongPassword = errors.New("wrong password or email")
 	ErrorCategoryNotFound  = errors.New("category not found")
+	ErrorComplainNotFound  = errors.New("complain not found")
 )
 
 const (

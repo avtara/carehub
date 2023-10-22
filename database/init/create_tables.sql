@@ -115,7 +115,7 @@ CREATE TABLE complains (
     category_id INT,
     user_id INT,
     complain_description TEXT,
-    complain_details JSONB,
+    complain_details JSONB DEFAULT '{}'::JSONB,
     status          complain_status DEFAULT 'open',
     is_active       BOOLEAN          DEFAULT 'true'                 NOT NULL,
     created_by      VARCHAR(255) DEFAULT 'SYSTEM'::CHARACTER VARYING NOT NULL,
@@ -128,27 +128,14 @@ CREATE TABLE complains (
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE SET NULL
 );
 
-INSERT INTO complains (complain_id, category_id, user_id, complain_description, complain_details, status, is_active, created_by, created_at, modified_by, modified_at, deleted_by, deleted_at) VALUES (DEFAULT, 1, 2, 'Ini kenapa saya transfer kok engga sampai di penerima?', e'[
-                     {
-                       "field_label": "Bank Name",
-                       "field_value": "BCA"
-                     },
-                     {
+INSERT INTO complains (complain_id, category_id, user_id, complain_description, complain_details, status,
+                               is_active, created_by, created_at, modified_by, modified_at, deleted_by, deleted_at)
+VALUES (DEFAULT, 1, 2, 'Ini kenapa saya transfer kok engga sampai di penerima?',
+        '[{"field_label": "Bank Name", "field_value": "BCA"}, {"field_label": "Bank Account", "field_options": 9312032193}, {"field_label": "Chronology", "field_options": "Awalnya saya coba coba, terus tiba tiba teman saya berkata, \"hey manusia, tenet\", begitu"}, {"field_label": "Amount", "field_value": 200000}]',
+        DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, null, null);
 
-                       "field_label": "Bank Account",
-                       "field_options": 9312032193
-                     },
-                     {
-                       "field_label": "Chronology",
-                       "field_options": "Awalnya saya coba coba, terus tiba tiba teman saya berkata, \\"hey manusia, tenet\\", begitu"
-                     },
-                     {
-                       "field_label": "Amount",
-                       "field_value": 200000
-                     }
-                   ]', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, null, null)
 
-CREATE TABLE complains_resolution (
+CREATE TABLE complain_resolutions (
     resolution_id SERIAL PRIMARY KEY,
     complain_id INT,
     resolved_by INT,
@@ -163,4 +150,11 @@ CREATE TABLE complains_resolution (
     FOREIGN KEY (complain_id) REFERENCES complains (complain_id) ON DELETE CASCADE,
     FOREIGN KEY (resolved_by) REFERENCES users (user_id) ON DELETE SET NULL
 );
+
+INSERT INTO complain_resolutions (resolution_id, complain_id, resolved_by, remark, is_active, created_by,
+                                         created_at, modified_by, modified_at, deleted_by, deleted_at)
+VALUES (DEFAULT, 1, 1, 'Kamu salah transfer, silahkan berikhlas', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, null,
+        null);
+
+
 
