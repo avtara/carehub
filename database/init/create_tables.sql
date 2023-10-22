@@ -109,14 +109,14 @@ INSERT INTO extra_field_categories (field_id, category_id, field_type, field_lab
 VALUES (DEFAULT, 1, 'text_area'::category_type, 'Chronology', '{}', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, null,
         null);
 
-CREATE TYPE complaint_status AS ENUM ('open', 'in_progress', 'resolved', 'closed');
-CREATE TABLE complaints (
-    complaint_id SERIAL PRIMARY KEY,
+CREATE TYPE complain_status AS ENUM ('open', 'in_progress', 'resolved', 'closed');
+CREATE TABLE complains (
+    complain_id SERIAL PRIMARY KEY,
     category_id INT,
     user_id INT,
-    complaint_description TEXT,
-    complaint_details JSONB,
-    status          complaint_status DEFAULT 'open',
+    complain_description TEXT,
+    complain_details JSONB,
+    status          complain_status DEFAULT 'open',
     is_active       BOOLEAN          DEFAULT 'true'                 NOT NULL,
     created_by      VARCHAR(255) DEFAULT 'SYSTEM'::CHARACTER VARYING NOT NULL,
     created_at      TIMESTAMP(0) DEFAULT NOW()                       NOT NULL,
@@ -128,7 +128,7 @@ CREATE TABLE complaints (
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE SET NULL
 );
 
-INSERT INTO complaints (complaint_id, category_id, user_id, complaint_description, complaint_details, status, is_active, created_by, created_at, modified_by, modified_at, deleted_by, deleted_at) VALUES (DEFAULT, 1, 2, 'Ini kenapa saya transfer kok engga sampai di penerima?', e'[
+INSERT INTO complains (complain_id, category_id, user_id, complain_description, complain_details, status, is_active, created_by, created_at, modified_by, modified_at, deleted_by, deleted_at) VALUES (DEFAULT, 1, 2, 'Ini kenapa saya transfer kok engga sampai di penerima?', e'[
                      {
                        "field_label": "Bank Name",
                        "field_value": "BCA"
@@ -148,9 +148,9 @@ INSERT INTO complaints (complaint_id, category_id, user_id, complaint_descriptio
                      }
                    ]', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, null, null)
 
-CREATE TABLE complaints_resolution (
+CREATE TABLE complains_resolution (
     resolution_id SERIAL PRIMARY KEY,
-    complaint_id INT,
+    complain_id INT,
     resolved_by INT,
     remark TEXT NOT NULL,
     is_active       BOOLEAN          DEFAULT 'true'                 NOT NULL,
@@ -160,7 +160,7 @@ CREATE TABLE complaints_resolution (
     modified_at     TIMESTAMP(0) DEFAULT NOW()                       NOT NULL,
     deleted_by      VARCHAR(255),
     deleted_at      TIMESTAMP,
-    FOREIGN KEY (complaint_id) REFERENCES complaints (complaint_id) ON DELETE CASCADE,
+    FOREIGN KEY (complain_id) REFERENCES complains (complain_id) ON DELETE CASCADE,
     FOREIGN KEY (resolved_by) REFERENCES users (user_id) ON DELETE SET NULL
 );
 
