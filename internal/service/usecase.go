@@ -19,3 +19,11 @@ type CategoryUseCase interface {
 	GetAllCategories(ctx context.Context, limit int) (response []models.Category, err error)
 	GetCategoryByID(ctx context.Context, ID int64) (response models.Category, err error)
 }
+
+type ComplainUseCase interface {
+	GetAllComplain(ctx context.Context, limit int) (response []models.Complain, err error)
+	GetComplainByID(ctx context.Context, ID int64) (response models.Complain, err error)
+	InsertComplain(ctx context.Context, args models.InsertComplainParams, userID int64) (err error)
+	InsertResolution(ctx context.Context, args models.InsertResolutionParams, complainID, adminID int64) (err error)
+	UpdateStatus(ctx context.Context, status string, complainID int64) (err error)
+}

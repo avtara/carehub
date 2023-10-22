@@ -23,3 +23,12 @@ type CategoryRepository interface {
 	GetCategoryByID(ctx context.Context, ID int64) (result models.Category, err error)
 	GetExtraFieldByCategoryID(ctx context.Context, categoryID int64) (result []models.ExtraFieldCategory, err error)
 }
+
+type ComplainRepository interface {
+	GetAllComplain(ctx context.Context, limit int) (result []models.Complain, err error)
+	GetComplainByID(ctx context.Context, ID int64) (result models.Complain, err error)
+	GetResolutionByComplainID(ctx context.Context, complainID int64) (result []models.Resolution, err error)
+	InsertComplain(ctx context.Context, args models.InsertComplainParams, userID int64) (err error)
+	InsertResolution(ctx context.Context, args models.InsertResolutionParams, complainID, adminID int64) (err error)
+	UpdateStatus(ctx context.Context, status string, complainID int64) (err error)
+}

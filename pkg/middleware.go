@@ -2,6 +2,7 @@ package pkg
 
 import (
 	"fmt"
+	"github.com/avtara/carehub/internal/models"
 	"github.com/avtara/carehub/utils"
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
@@ -58,6 +59,19 @@ func JwtMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		err := utils.TokenValid(c)
 		if err != nil {
+			return utils.MessageResponse(c, http.StatusUnauthorized, nil)
+		}
+
+		return next(c)
+	}
+}
+
+func AdminMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		err := utils.TokenValid(c)
+		data, err := utils.ExtractTokenJWT(c)
+
+		if err != nil || data["role"] != models.RoleTypeAdmin {
 			return utils.MessageResponse(c, http.StatusUnauthorized, nil)
 		}
 

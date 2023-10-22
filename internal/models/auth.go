@@ -2,6 +2,7 @@ package models
 
 const (
 	RoleTypeGuest = "guest"
+	RoleTypeAdmin = "admin"
 )
 
 type (

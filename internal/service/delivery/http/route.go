@@ -3,7 +3,7 @@ package http
 import "github.com/avtara/carehub/pkg"
 
 func (so *svObject) initRoute() {
-	so.service.GET("/", pkg.JwtMiddleware(so.handlerHelloWorld))
+	so.service.GET("/", so.handlerHelloWorld)
 
 	auth := so.service.Group("/auth")
 	{
@@ -29,4 +29,12 @@ func (so *svObject) initRoute() {
 
 	}
 
+	complain := so.service.Group("/complains")
+	{
+		complain.GET("", pkg.AdminMiddleware(so.handlerGetAllCompain))
+		complain.GET("/:id", pkg.AdminMiddleware(so.handlerGetComplainByID))
+		complain.POST("", pkg.JwtMiddleware(so.handlerInsertComplain))
+		complain.POST("/:id", pkg.AdminMiddleware(so.handlerInsertResolution))
+		complain.PATCH("/:id", pkg.AdminMiddleware(so.handlerInsertResolution))
+	}
 }

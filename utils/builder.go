@@ -59,7 +59,16 @@ func CustomHTTPErrorHandler(err error, c echo.Context) {
 		code = http.StatusNotFound
 		message = "Category not found"
 		err = models.ErrorCategoryNotFound
+	} else if strings.Contains(err.Error(), models.ErrorComplainNotFound.Error()) {
+		code = http.StatusNotFound
+		message = "Complain not found"
+		err = models.ErrorComplainNotFound
+	} else if strings.Contains(err.Error(), models.ErrorResolutionNotFound.Error()) {
+		code = http.StatusUnprocessableEntity
+		message = "Resolution not found"
+		err = models.ErrorResolutionNotFound
 	}
+
 	err = errors.New("internal server error")
 
 	c.JSON(code, Data{

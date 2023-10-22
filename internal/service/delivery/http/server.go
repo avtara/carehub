@@ -15,6 +15,7 @@ type svObject struct {
 	authenticationUseCase service.AuthenticationUseCase
 	userUseCase           service.UserUseCase
 	categoryUseCase       service.CategoryUseCase
+	complainUseCase       service.ComplainUseCase
 
 	IsSystemMaintenance bool
 }
@@ -25,6 +26,7 @@ func NewServerHandler(
 	authenticationUsecase service.AuthenticationUseCase,
 	userUsecase service.UserUseCase,
 	categoryUseCase service.CategoryUseCase,
+	complainUseCase service.ComplainUseCase,
 ) {
 	obj := &svObject{
 		service:               svc,
@@ -32,6 +34,7 @@ func NewServerHandler(
 		authenticationUseCase: authenticationUsecase,
 		userUseCase:           userUsecase,
 		categoryUseCase:       categoryUseCase,
+		complainUseCase:       complainUseCase,
 
 		IsSystemMaintenance: utils.ToBool(utils.GetEnv("app.is_system_maintenance", "FALSE"), false) == true,
 	}
