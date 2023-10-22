@@ -9,7 +9,6 @@ import (
 	"github.com/go-playground/validator"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/gommon/log"
-	"golang.org/x/crypto/bcrypt"
 )
 
 type userUseCase struct {
@@ -45,14 +44,6 @@ func (u userUseCase) UpdateProfile(ctx context.Context, args models.UpdateProfil
 			}
 		}
 	}()
-
-	var hashedPassword []byte
-	hashedPassword, err = bcrypt.GenerateFromPassword([]byte("adminkocak"), bcrypt.DefaultCost)
-	if err != nil {
-		err = fmt.Errorf("[Usecase][GoogleCallback] failed while hash password: %s", err.Error())
-		return
-	}
-	fmt.Println(string(hashedPassword))
 
 	user, err = u.userRepository.GetByID(ctx, userID)
 	if err != nil && err == models.ErrorUserNotFound {

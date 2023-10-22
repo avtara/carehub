@@ -51,14 +51,14 @@ func (u categoryUseCase) GetCategoryByID(ctx context.Context, ID int64) (respons
 
 	response, err = u.categoryRepository.GetCategoryByID(ctx, ID)
 	if err != nil {
-		err = fmt.Errorf("[Usecase][GetCategoryByID] failed while get all categories: %s", err.Error())
+		err = fmt.Errorf("[Usecase][GetCategoryByID] failed while category by id: %s", err.Error())
 		return
 	}
 
 	var extraFields []models.ExtraFieldCategory
 	extraFields, err = u.categoryRepository.GetExtraFieldByCategoryID(ctx, response.ID)
 	if err != nil {
-		err = fmt.Errorf("[Usecase][GetCategoryByID] failed while get all categories: %s", err.Error())
+		err = fmt.Errorf("[Usecase][GetCategoryByID] failed while get category extrafield by category id: %s", err.Error())
 		return
 	}
 	response.ExtraFieldCategories = extraFields

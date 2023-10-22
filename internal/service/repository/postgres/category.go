@@ -57,7 +57,7 @@ func (c *categoryRepository) GetCategoryByID(ctx context.Context, ID int64) (res
 		var tmp models.Category
 		err = rows.Scan(&tmp.ID, &tmp.Name)
 		if err != nil {
-			err = fmt.Errorf("[Repository][GetCategoryByID] failed scan GetAllCategory: %s", err.Error())
+			err = fmt.Errorf("[Repository][GetCategoryByID] failed scan Category: %s", err.Error())
 			return
 		}
 		result = tmp
@@ -72,7 +72,6 @@ func (c *categoryRepository) GetCategoryByID(ctx context.Context, ID int64) (res
 }
 
 func (c *categoryRepository) GetExtraFieldByCategoryID(ctx context.Context, categoryID int64) (result []models.ExtraFieldCategory, err error) {
-	fmt.Println(categoryID)
 	rows, err := c.conn.QueryContext(ctx, queries.GetExtraFieldByCategoryID, categoryID)
 	if err != nil {
 		if err != sql.ErrNoRows {
@@ -86,7 +85,7 @@ func (c *categoryRepository) GetExtraFieldByCategoryID(ctx context.Context, cate
 		var tmp models.ExtraFieldCategory
 		err = rows.Scan(&tmp.ID, &tmp.CategoryID, &tmp.FieldType, &tmp.FieldLabel, &tmp.FieldOptions)
 		if err != nil {
-			err = fmt.Errorf("[Repository][GetExtraFieldByCategoryID] failed scan GetAllCategory: %s", err.Error())
+			err = fmt.Errorf("[Repository][GetExtraFieldByCategoryID] failed scan ExtraFieldCategory: %s", err.Error())
 			return
 		}
 		result = append(result, tmp)
