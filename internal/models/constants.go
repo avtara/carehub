@@ -15,3 +15,10 @@ const (
 	GroupFilePhotoUser = "photo_user"
 	MaxSize            = 1024 * 1024
 )
+
+type (
+	SendEmailNewUserParams struct {
+		Email    string `json:"email,omitempty"`
+		Password string `json:"password,omitempty"`
+	}
+)

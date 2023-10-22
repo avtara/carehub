@@ -129,7 +129,10 @@ func (u *authenticationUsecase) GoogleCallback(ctx context.Context, code string)
 		}
 
 		go func(user models.User) {
-			_, err = u.asyncRepository.Publish(context.Background(), models.TaskSendEmailNewUser, user)
+			_, err = u.asyncRepository.Publish(context.Background(), models.TaskSendEmailNewUser, models.SendEmailNewUserParams{
+				Email:    user.Email,
+				Password: user.Password,
+			})
 			if err != nil {
 				log.Warnf("[Usecase][GoogleCallback] failed while publish task: %s", err.Error())
 			}

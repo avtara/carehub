@@ -17,7 +17,9 @@ func (so *svObject) handlerAuthenticationGoogle(c echo.Context) error {
 		return err
 	}
 
-	return c.Redirect(http.StatusTemporaryRedirect, response)
+	return c.JSON(http.StatusOK, map[string]string{
+		"redirect_url": response,
+	})
 }
 
 func (so *svObject) handlerCallbackGoogle(c echo.Context) error {

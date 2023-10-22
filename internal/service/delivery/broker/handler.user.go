@@ -10,7 +10,7 @@ import (
 )
 
 func (so *aqObject) handlerProcessTaskSendEmail(ctx context.Context, task *asynq.Task) (err error) {
-	var payload models.User
+	var payload models.SendEmailNewUserParams
 
 	if err := json.Unmarshal(task.Payload(), &payload); err != nil {
 		return fmt.Errorf("[Delivery][handlerProcessTaskSendEmail] failed to unmarshal payload: %w", asynq.SkipRetry)
