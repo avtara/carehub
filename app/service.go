@@ -11,10 +11,12 @@ import (
 func (cfg *App) InitService() (err error) {
 	userRepository := postgres.NewUserRepository(cfg.DB)
 	brokerRepository := broker.NewBrokerRepository(cfg.Asynq)
+	categoryRepository := postgres.NewCategoryRepository(cfg.DB)
+
 	userUseCase := usecase.NewUserUseCase(userRepository, brokerRepository, cfg.DB)
 	authenticationUseCase := usecase.NewAuthenticationUseCase(userRepository, brokerRepository, cfg.OauthConfig, cfg.DB)
-
-	http.NewServerHandler(cfg.Server, cfg.ZapLogger, authenticationUseCase, userUseCase)
+	categoryUsecase := usecase.NewCategoryUseCase(categoryRepository)
+	http.NewServerHandler(cfg.Server, cfg.ZapLogger, authenticationUseCase, userUseCase, categoryUsecase)
 	broker2.NewBrokerHandler(cfg.Asynq, cfg.AsynqServer, cfg.AsynqMux)
 
 	return

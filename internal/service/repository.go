@@ -17,3 +17,9 @@ type UserRepository interface {
 type BrokerRepository interface {
 	Publish(ctx context.Context, typename string, payload interface{}) (taskInfo *asynq.TaskInfo, err error)
 }
+
+type CategoryRepository interface {
+	GetAllCategories(ctx context.Context, limit int) (result []models.Category, err error)
+	GetCategoryByID(ctx context.Context, ID int64) (result models.Category, err error)
+	GetExtraFieldByCategoryID(ctx context.Context, categoryID int64) (result []models.ExtraFieldCategory, err error)
+}

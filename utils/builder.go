@@ -42,7 +42,7 @@ func CustomHTTPErrorHandler(err error, c echo.Context) {
 	if he, ok := err.(*echo.HTTPError); ok {
 		code = he.Code
 	}
-	err = errors.New("internal server error")
+
 	if strings.Contains(err.Error(), models.ErrorUserNotFound.Error()) {
 		code = http.StatusNotFound
 		message = "User not found"
@@ -55,7 +55,12 @@ func CustomHTTPErrorHandler(err error, c echo.Context) {
 		code = http.StatusUnprocessableEntity
 		message = "Wrong password or email"
 		err = models.ErrorUserWrongPassword
+	} else if strings.Contains(err.Error(), models.ErrorCategoryNotFound.Error()) {
+		code = http.StatusNotFound
+		message = "Category not found"
+		err = models.ErrorCategoryNotFound
 	}
+	err = errors.New("internal server error")
 
 	c.JSON(code, Data{
 		Code:    code,

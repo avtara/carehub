@@ -14,6 +14,7 @@ type svObject struct {
 	logger                *zap.Logger
 	authenticationUseCase service.AuthenticationUseCase
 	userUseCase           service.UserUseCase
+	categoryUseCase       service.CategoryUseCase
 
 	IsSystemMaintenance bool
 }
@@ -23,12 +24,14 @@ func NewServerHandler(
 	logger *zap.Logger,
 	authenticationUsecase service.AuthenticationUseCase,
 	userUsecase service.UserUseCase,
+	categoryUseCase service.CategoryUseCase,
 ) {
 	obj := &svObject{
 		service:               svc,
 		logger:                logger,
 		authenticationUseCase: authenticationUsecase,
 		userUseCase:           userUsecase,
+		categoryUseCase:       categoryUseCase,
 
 		IsSystemMaintenance: utils.ToBool(utils.GetEnv("app.is_system_maintenance", "FALSE"), false) == true,
 	}
