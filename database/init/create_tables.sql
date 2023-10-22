@@ -31,6 +31,15 @@ VALUES
         DEFAULT, DEFAULT, DEFAULT, null, null
     );
 
+INSERT INTO users (user_id, name, password, email, photo, role, is_active, created_by, created_at, modified_by,
+                          modified_at, deleted_by, deleted_at)
+VALUES (DEFAULT, 'Muhammad Avtara Khrisna', '$2a$10$ri74429jiHyldWe2R5x8GOB6cQefe3JtnxHtiS37ofelfQk7OcG2q',
+        'avtarakhrisna1@gmail.com',
+        'https://lh3.googleusercontent.com/a/ACg8ocKJpoONQSu0UWewGeFmubaSFOtDYWdfoE3jYAc9moMmLhw=s96-c',
+        'guest'::user_role, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, null, null);
+
+
+
 
 CREATE TABLE categories (
     category_id     SERIAL          PRIMARY KEY,
@@ -100,5 +109,58 @@ INSERT INTO extra_field_categories (field_id, category_id, field_type, field_lab
 VALUES (DEFAULT, 1, 'text_area'::category_type, 'Chronology', '{}', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, null,
         null);
 
+CREATE TYPE complaint_status AS ENUM ('open', 'in_progress', 'resolved', 'closed');
+CREATE TABLE complaints (
+    complaint_id SERIAL PRIMARY KEY,
+    category_id INT,
+    user_id INT,
+    complaint_description TEXT,
+    complaint_details JSONB,
+    status          complaint_status DEFAULT 'open',
+    is_active       BOOLEAN          DEFAULT 'true'                 NOT NULL,
+    created_by      VARCHAR(255) DEFAULT 'SYSTEM'::CHARACTER VARYING NOT NULL,
+    created_at      TIMESTAMP(0) DEFAULT NOW()                       NOT NULL,
+    modified_by     VARCHAR(255) DEFAULT 'SYSTEM'::CHARACTER VARYING NOT NULL,
+    modified_at     TIMESTAMP(0) DEFAULT NOW()                       NOT NULL,
+    deleted_by      VARCHAR(255),
+    deleted_at      TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES categories (category_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE SET NULL
+);
 
+INSERT INTO complaints (complaint_id, category_id, user_id, complaint_description, complaint_details, status, is_active, created_by, created_at, modified_by, modified_at, deleted_by, deleted_at) VALUES (DEFAULT, 1, 2, 'Ini kenapa saya transfer kok engga sampai di penerima?', e'[
+                     {
+                       "field_label": "Bank Name",
+                       "field_value": "BCA"
+                     },
+                     {
+
+                       "field_label": "Bank Account",
+                       "field_options": 9312032193
+                     },
+                     {
+                       "field_label": "Chronology",
+                       "field_options": "Awalnya saya coba coba, terus tiba tiba teman saya berkata, \\"hey manusia, tenet\\", begitu"
+                     },
+                     {
+                       "field_label": "Amount",
+                       "field_value": 200000
+                     }
+                   ]', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, null, null)
+
+CREATE TABLE complaints_resolution (
+    resolution_id SERIAL PRIMARY KEY,
+    complaint_id INT,
+    resolved_by INT,
+    remark TEXT NOT NULL,
+    is_active       BOOLEAN          DEFAULT 'true'                 NOT NULL,
+    created_by      VARCHAR(255) DEFAULT 'SYSTEM'::CHARACTER VARYING NOT NULL,
+    created_at      TIMESTAMP(0) DEFAULT NOW()                       NOT NULL,
+    modified_by     VARCHAR(255) DEFAULT 'SYSTEM'::CHARACTER VARYING NOT NULL,
+    modified_at     TIMESTAMP(0) DEFAULT NOW()                       NOT NULL,
+    deleted_by      VARCHAR(255),
+    deleted_at      TIMESTAMP,
+    FOREIGN KEY (complaint_id) REFERENCES complaints (complaint_id) ON DELETE CASCADE,
+    FOREIGN KEY (resolved_by) REFERENCES users (user_id) ON DELETE SET NULL
+);
 
