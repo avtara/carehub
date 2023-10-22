@@ -16,6 +16,6 @@ type UserUseCase interface {
 }
 
 type CategoryUseCase interface {
-	GetAllCategories(ctx context.Context) (response []models.Category, err error)
-	GetCategoryByID(ctx context.Context, ID int64) (response []models.Category, err error)
+	GetAllCategories(ctx context.Context, limit int) (response []models.Category, err error)
+	GetCategoryByID(ctx context.Context, ID int64) (response models.Category, err error)
 }

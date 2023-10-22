@@ -6,6 +6,7 @@ var (
 	ErrorUserNotFound      = errors.New("user not found")
 	ErrorUserDuplicate     = errors.New("email has been taken")
 	ErrorUserWrongPassword = errors.New("wrong password or email")
+	ErrorCategoryNotFound  = errors.New("category not found")
 )
 
 const (

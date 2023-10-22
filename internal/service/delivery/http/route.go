@@ -22,4 +22,11 @@ func (so *svObject) initRoute() {
 		user.PUT("/edit", pkg.JwtMiddleware(so.handlerEditProfileUser))
 	}
 
+	category := so.service.Group("/categories")
+	{
+		category.GET("", so.HandlerGetAllCategory)
+		category.GET("/:id", so.HandlerGetCategoryByID)
+
+	}
+
 }

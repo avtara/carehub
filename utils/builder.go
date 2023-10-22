@@ -55,6 +55,10 @@ func CustomHTTPErrorHandler(err error, c echo.Context) {
 		code = http.StatusUnprocessableEntity
 		message = "Wrong password or email"
 		err = models.ErrorUserWrongPassword
+	} else if strings.Contains(err.Error(), models.ErrorCategoryNotFound.Error()) {
+		code = http.StatusNotFound
+		message = "Category not found"
+		err = models.ErrorCategoryNotFound
 	}
 
 	c.JSON(code, Data{

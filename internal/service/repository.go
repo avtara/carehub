@@ -19,6 +19,7 @@ type BrokerRepository interface {
 }
 
 type CategoryRepository interface {
-	GetAllCategories(ctx context.Context) (response []models.Category, err error)
-	GetCategoryByID(ctx context.Context, ID int64) (response []models.Category, err error)
+	GetAllCategories(ctx context.Context, limit int) (result []models.Category, err error)
+	GetCategoryByID(ctx context.Context, ID int64) (result models.Category, err error)
+	GetExtraFieldByCategoryID(ctx context.Context, categoryID int64) (result []models.ExtraFieldCategory, err error)
 }
