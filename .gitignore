@@ -22,3 +22,9 @@ go.work
 
 # Goland file
 *.idea
+
+# env config
+config.yml
+
+# Presistant data docker
+/data

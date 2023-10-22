@@ -1,0 +1,56 @@
+version: "3.8"
+services:
+  postgres:
+    container_name: postgresql
+    image: postgres:14-alpine
+    networks:
+      netbridge:
+        aliases:
+          - database
+    ports:
+      - 5432:5432
+    volumes:
+      - data:/var/lib/postgresql/data
+      - ./database/init/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    environment:
+      - POSTGRES_PASSWORD=s3cret
+      - POSTGRES_USER=carehub
+      - POSTGRES_DB=carehub_db
+  redis:
+    container_name: redis
+    image: docker.io/bitnami/redis:6.2
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    ports:
+      - '6379:6379'
+    expose:
+      - "6379"
+    volumes:
+      - './data/:/bitnami/redis/data/'
+    networks:
+      netbridge:
+        ipv4_address: 10.3.0.5
+  rest-server:
+    build:
+      context: .
+    container_name: rest-server
+    hostname: rest-server
+    networks:
+      netbridge:
+        ipv4_address: 10.3.0.5
+    ports:
+      - 9000:9000
+    deploy:
+      restart_policy:
+        condition: on-failure
+networks:
+  netbridge:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.3.0.0/24
+volumes:
+  data:
+    driver: local

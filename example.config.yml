@@ -1,0 +1,29 @@
+app:
+  hostname: localhost
+  port: 9000
+  env: development
+  is_system_maintenance: false
+redis:
+  host: 127.0.0.1
+  port: 6379
+database:
+  connection_lifetime: 15
+  database.maximum_idle: 5
+  connection_max_open: 0
+  host: localhost
+  port: 5432
+  user: carehub
+  password: s3cret
+  name: carehub_db
+  sslMode: disable
+  appKey: carehub
+oauth:
+  google:
+    redirect_url: "http://localhost:9000/auth/google/callback"
+    client_id:
+    client_secret:
+encrypt:
+  secret_key: "abc&1*~#^2^#s0^=)^^7%b34"
+jwt:
+  lifespan: 1
+  secret_key: "abc&1*~#^2^#s0^=)^^7%b34"
