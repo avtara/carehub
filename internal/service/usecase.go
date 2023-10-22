@@ -14,3 +14,8 @@ type AuthenticationUseCase interface {
 type UserUseCase interface {
 	UpdateProfile(ctx context.Context, args models.UpdateProfileUserParams, userID int64) (err error)
 }
+
+type CategoryUseCase interface {
+	GetAllCategories(ctx context.Context) (response []models.Category, err error)
+	GetCategoryByID(ctx context.Context, ID int64) (response []models.Category, err error)
+}
