@@ -56,12 +56,13 @@ INSERT INTO categories (category_id, category_name, is_active, created_by, creat
                                deleted_by, deleted_at)
 VALUES (DEFAULT, 'Reksa Dana', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, null, null);
 
+CREATE TYPE category_type AS ENUM('text_input','text_area', 'number_input', 'select');
 CREATE TABLE extra_field_categories (
     field_id        SERIAL          PRIMARY KEY,
     category_id     INT,
-    field_type      VARCHAR(50)     NOT NULL,
+    field_type      category_type   NOT NULL,
     field_label     VARCHAR(255)    NOT NULL,
-    field_options   JSONB,
+    field_options   JSONB           DEFAULT '{}'::JSONB,
     is_active       BOOLEAN         DEFAULT 'true'                 NOT NULL,
     created_by      VARCHAR(255)    DEFAULT 'SYSTEM'::CHARACTER VARYING NOT NULL,
     created_at      TIMESTAMP(0)    DEFAULT NOW()                       NOT NULL,
