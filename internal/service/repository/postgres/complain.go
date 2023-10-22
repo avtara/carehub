@@ -22,7 +22,7 @@ func NewComplainRepository(
 	}
 }
 
-func (c complainRepository) GetAllComplain(ctx context.Context, limit int) (result []models.Complain, err error) {
+func (c *complainRepository) GetAllComplain(ctx context.Context, limit int) (result []models.Complain, err error) {
 	rows, err := c.conn.QueryContext(ctx, queries.GetAllComplain, limit)
 	if err != nil {
 		if err != sql.ErrNoRows {
@@ -41,6 +41,7 @@ func (c complainRepository) GetAllComplain(ctx context.Context, limit int) (resu
 			&tmp.User.Name,
 			&tmp.User.Email,
 			&tmp.User.Photo,
+			&tmp.Category,
 		)
 		if err != nil {
 			err = fmt.Errorf("[Repository][GetAllComplain] failed scan GetAllComplain: %s", err.Error())
@@ -52,7 +53,7 @@ func (c complainRepository) GetAllComplain(ctx context.Context, limit int) (resu
 	return
 }
 
-func (c complainRepository) GetComplainByID(ctx context.Context, ID int64) (result models.Complain, err error) {
+func (c *complainRepository) GetComplainByID(ctx context.Context, ID int64) (result models.Complain, err error) {
 	rows, err := c.conn.QueryContext(ctx, queries.GetComplainByID, ID)
 	if err != nil {
 		err = fmt.Errorf("[Repository][GetComplainByID] failed getting complain: %s", err.Error())
@@ -70,6 +71,7 @@ func (c complainRepository) GetComplainByID(ctx context.Context, ID int64) (resu
 			&tmp.User.Name,
 			&tmp.User.Email,
 			&tmp.User.Photo,
+			&tmp.Category,
 		)
 		if err != nil {
 			err = fmt.Errorf("[Repository][GetCategoryByID] failed scan Complain: %s", err.Error())
@@ -86,7 +88,7 @@ func (c complainRepository) GetComplainByID(ctx context.Context, ID int64) (resu
 	return
 }
 
-func (c complainRepository) GetResolutionByComplainID(ctx context.Context, complainID int64) (result []models.Resolution, err error) {
+func (c *complainRepository) GetResolutionByComplainID(ctx context.Context, complainID int64) (result []models.Resolution, err error) {
 	rows, err := c.conn.QueryContext(ctx, queries.GetResolutionByID, complainID)
 	if err != nil {
 		if err != sql.ErrNoRows {
@@ -109,17 +111,53 @@ func (c complainRepository) GetResolutionByComplainID(ctx context.Context, compl
 	return
 }
 
-func (c complainRepository) InsertComplain(ctx context.Context, complain models.Complain, userID int64) (err error) {
-	//TODO implement me
-	panic("implement me")
+func (c *complainRepository) InsertComplain(ctx context.Context, args models.InsertComplainParams, userID int64) (err error) {
+	err = c.conn.QueryRowContext(
+		ctx,
+		queries.InsertComplain,
+		args.CategoryID,
+		userID,
+		args.Description,
+		args.ComplaintDetail,
+	).Err()
+
+	if err != nil {
+		err = fmt.Errorf("[Repository][Insert] failed insert complain: %s", err.Error())
+		return
+	}
+	return
 }
 
-func (c complainRepository) InsertResolution(ctx context.Context, complain models.Resolution, userID, complainID int64) (err error) {
-	//TODO implement me
-	panic("implement me")
+func (c *complainRepository) InsertResolution(ctx context.Context, args models.InsertResolutionParams, complainID, adminID int64) (err error) {
+	err = c.conn.QueryRowContext(
+		ctx,
+		queries.InsertResolution,
+		complainID,
+		adminID,
+		args.Remark,
+	).Err()
+
+	if err != nil {
+		err = fmt.Errorf("[Repository][Insert] failed insert complain: %s", err.Error())
+		return
+	}
+	return
 }
 
-func (c complainRepository) UpdateStatus(ctx context.Context, status string) (err error) {
-	//TODO implement me
-	panic("implement me")
+func (c *complainRepository) UpdateStatus(ctx context.Context, status string, complainID int64) (err error) {
+	fmt.Println("kocak")
+
+	err = c.conn.QueryRowContext(
+		ctx,
+		queries.UpdateStatusComplain,
+		status,
+		complainID,
+	).Err()
+
+	if err != nil {
+		err = fmt.Errorf("[Repository][Insert] failed insert complain: %s", err.Error())
+		return
+	}
+	return
+
 }

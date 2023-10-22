@@ -109,7 +109,8 @@ INSERT INTO extra_field_categories (field_id, category_id, field_type, field_lab
 VALUES (DEFAULT, 1, 'text_area'::category_type, 'Chronology', '{}', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, null,
         null);
 
-CREATE TYPE complain_status AS ENUM ('open', 'in_progress', 'resolved', 'closed');
+CREATE TYPE complain_status AS ENUM ('' ||
+                                     'open', 'in_progress', 'resolved', 'closed');
 CREATE TABLE complains (
     complain_id SERIAL PRIMARY KEY,
     category_id INT,

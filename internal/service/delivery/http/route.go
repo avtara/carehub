@@ -33,5 +33,8 @@ func (so *svObject) initRoute() {
 	{
 		complain.GET("", pkg.AdminMiddleware(so.handlerGetAllCompain))
 		complain.GET("/:id", pkg.AdminMiddleware(so.handlerGetComplainByID))
+		complain.POST("", pkg.JwtMiddleware(so.handlerInsertComplain))
+		complain.POST("/:id", pkg.AdminMiddleware(so.handlerInsertResolution))
+		complain.PATCH("/:id", pkg.AdminMiddleware(so.handlerInsertResolution))
 	}
 }

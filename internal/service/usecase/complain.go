@@ -62,17 +62,44 @@ func (c *complainUseCase) GetComplainByID(ctx context.Context, ID int64) (respon
 	return
 }
 
-func (c *complainUseCase) InsertComplain(ctx context.Context, args models.Complain, userID int64) (err error) {
-	//TODO implement me
-	panic("implement me")
+func (c *complainUseCase) InsertComplain(ctx context.Context, args models.InsertComplainParams, userID int64) (err error) {
+	err = c.complainRepository.InsertComplain(ctx, args, userID)
+	if err != nil {
+		err = fmt.Errorf("[Usecase][InsertComplain] while insert complain data: %s", err.Error())
+		return
+	}
+
+	return
 }
 
-func (c *complainUseCase) InsertResolution(ctx context.Context, args models.Resolution, complainID, adminID int64) (err error) {
-	//TODO implement me
-	panic("implement me")
+func (c *complainUseCase) InsertResolution(ctx context.Context, args models.InsertResolutionParams, complainID, adminID int64) (err error) {
+	err = c.complainRepository.InsertResolution(ctx, args, complainID, adminID)
+	if err != nil {
+		err = fmt.Errorf("[Usecase][InsertResolution] while insert complain data: %s", err.Error())
+		return
+	}
+
+	return
 }
 
-func (c *complainUseCase) UpdateStatus(ctx context.Context, status string) (err error) {
-	//TODO implement me
-	panic("implement me")
+func (c *complainUseCase) UpdateStatus(ctx context.Context, status string, complainID int64) (err error) {
+	var complain models.Complain
+	complain, err = c.GetComplainByID(ctx, complainID)
+	if err != nil {
+		err = fmt.Errorf("[Usecase][UpdateStatus] while get complain data by id: %s", err.Error())
+		return
+	}
+
+	if len(complain.Resolution) <= 0 {
+		err = models.ErrorResolutionNotFound
+		return
+	}
+
+	err = c.UpdateStatus(ctx, status, complainID)
+	if err != nil {
+		err = fmt.Errorf("[Usecase][UpdateStatus] while update status complain data: %s", err.Error())
+		return
+	}
+
+	return
 }
