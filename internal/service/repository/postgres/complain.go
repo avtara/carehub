@@ -145,8 +145,6 @@ func (c *complainRepository) InsertResolution(ctx context.Context, args models.I
 }
 
 func (c *complainRepository) UpdateStatus(ctx context.Context, status string, complainID int64) (err error) {
-	fmt.Println("kocak")
-
 	err = c.conn.QueryRowContext(
 		ctx,
 		queries.UpdateStatusComplain,

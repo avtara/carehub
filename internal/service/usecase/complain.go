@@ -84,18 +84,18 @@ func (c *complainUseCase) InsertResolution(ctx context.Context, args models.Inse
 
 func (c *complainUseCase) UpdateStatus(ctx context.Context, status string, complainID int64) (err error) {
 	var complain models.Complain
+
 	complain, err = c.GetComplainByID(ctx, complainID)
 	if err != nil {
 		err = fmt.Errorf("[Usecase][UpdateStatus] while get complain data by id: %s", err.Error())
 		return
 	}
-
 	if len(complain.Resolution) <= 0 {
 		err = models.ErrorResolutionNotFound
 		return
 	}
 
-	err = c.UpdateStatus(ctx, status, complainID)
+	err = c.complainRepository.UpdateStatus(ctx, status, complainID)
 	if err != nil {
 		err = fmt.Errorf("[Usecase][UpdateStatus] while update status complain data: %s", err.Error())
 		return
