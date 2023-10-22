@@ -72,3 +72,33 @@ CREATE TABLE extra_field_categories (
     deleted_at      TIMESTAMP,
     FOREIGN KEY (category_id) REFERENCES categories (category_id) ON DELETE CASCADE
 );
+
+INSERT INTO extra_field_categories (field_id, category_id, field_type, field_label, field_options, is_active,
+                                           created_by, created_at, modified_by, modified_at, deleted_by, deleted_at)
+VALUES (DEFAULT, 1, 'number_input'::category_type, 'Amount', '{}', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, null, null);
+
+INSERT INTO extra_field_categories (field_id, category_id, field_type, field_label, field_options, is_active,
+                                           created_by, created_at, modified_by, modified_at, deleted_by, deleted_at)
+VALUES (DEFAULT, 1, 'select'::category_type, 'Bank Name', e'[
+  {
+    "value": "bca",
+    "name": "BCA"
+  },
+  {
+    "value": "mandiri",
+    "name": "Mandiri"
+  }
+]', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, null, null);
+
+INSERT INTO extra_field_categories (field_id, category_id, field_type, field_label, field_options, is_active,
+                                           created_by, created_at, modified_by, modified_at, deleted_by, deleted_at)
+VALUES (DEFAULT, 1, 'text_input'::category_type, 'Bank Account', '{}', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT,
+        null, null);
+
+INSERT INTO extra_field_categories (field_id, category_id, field_type, field_label, field_options, is_active,
+                                           created_by, created_at, modified_by, modified_at, deleted_by, deleted_at)
+VALUES (DEFAULT, 1, 'text_area'::category_type, 'Chronology', '{}', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, null,
+        null);
+
+
+
