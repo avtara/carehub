@@ -48,10 +48,6 @@ func (c *categoryRepository) GetAllCategories(ctx context.Context, limit int) (r
 func (c *categoryRepository) GetCategoryByID(ctx context.Context, ID int64) (result models.Category, err error) {
 	rows, err := c.conn.QueryContext(ctx, queries.GetCategoryByID, ID)
 	if err != nil {
-		if err == sql.ErrNoRows {
-			err = models.ErrorUserWrongPassword
-			return
-		}
 		err = fmt.Errorf("[Repository][GetCategoryByID] failed getting category: %s", err.Error())
 		return
 	}
@@ -65,6 +61,11 @@ func (c *categoryRepository) GetCategoryByID(ctx context.Context, ID int64) (res
 			return
 		}
 		result = tmp
+	}
+
+	if result.ID == 0 {
+		err = models.ErrorCategoryNotFound
+		return
 	}
 
 	return

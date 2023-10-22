@@ -42,7 +42,7 @@ func CustomHTTPErrorHandler(err error, c echo.Context) {
 	if he, ok := err.(*echo.HTTPError); ok {
 		code = he.Code
 	}
-	err = errors.New("internal server error")
+
 	if strings.Contains(err.Error(), models.ErrorUserNotFound.Error()) {
 		code = http.StatusNotFound
 		message = "User not found"
@@ -60,6 +60,7 @@ func CustomHTTPErrorHandler(err error, c echo.Context) {
 		message = "Category not found"
 		err = models.ErrorCategoryNotFound
 	}
+	err = errors.New("internal server error")
 
 	c.JSON(code, Data{
 		Code:    code,
