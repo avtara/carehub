@@ -44,6 +44,18 @@ CREATE TABLE categories (
     deleted_at      TIMESTAMP
 );
 
+INSERT INTO categories (category_id, category_name, is_active, created_by, created_at, modified_by, modified_at,
+                               deleted_by, deleted_at)
+VALUES (DEFAULT, 'Transfer', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, null, null);
+
+INSERT INTO categories (category_id, category_name, is_active, created_by, created_at, modified_by, modified_at,
+                               deleted_by, deleted_at)
+VALUES (DEFAULT, 'Deposito', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, null, null);
+
+INSERT INTO categories (category_id, category_name, is_active, created_by, created_at, modified_by, modified_at,
+                               deleted_by, deleted_at)
+VALUES (DEFAULT, 'Reksa Dana', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, null, null);
+
 CREATE TABLE extra_field_categories (
     field_id        SERIAL          PRIMARY KEY,
     category_id     INT,
